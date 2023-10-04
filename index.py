@@ -46,6 +46,3 @@ def setup_ner(model_id="xlm-roberta-large-finetuned-conll03-english", cache_dir=
     classifier = pipeline("ner", model=model, tokenizer=tokenizer)
 
     return classifier
-
-#51la5/roberta-large-NER
-#NlpHUST/ner-vietnamese-electra-base
