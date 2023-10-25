@@ -43,19 +43,37 @@ def process_results(results: list, text: str):
     
 def ner_langchain(text):
     result = classifier(text)
-    result = results_ner(result)
-    pos_tokens = process_results(result, text)
+    if result:
+        result = results_ner(result)
+        pos_tokens = process_results(result, text)
+    else:
+        pos_tokens = [(text, None)]
     return pos_tokens
 
 demo = gr.Interface(
     ner_langchain,
-    gr.Textbox(placeholder="Enter sentence here..."),
+    gr.Textbox(placeholder="Enter sentence here...", show_label=False, lines=2),
     # ["highlight", 'json', "html"],
     ["highlight"],
     examples=[
         ["Công Lý là diễn viên hài"],
         ["Alya told Jasmine that Andrew could pay with cash.."],
+        ["The conference will be held in New York City next week, and John Smith from ABC Inc. will be one of the speakers. He will talk about AI technology and its impact on the business world."]
     ],
+    title='NAME ENTITY RECOGNITION',
+    article="""
+                <br><br><br>
+                <div>
+                    <h1>Name entity recognition tags:</h1>
+                    <ul style="list-style-type: none;">
+                        <li style="margin-left: 30px;">- PER (Person)</li>
+                        <li style="margin-left: 30px;">- LOC (Location)</li>
+                        <li style="margin-left: 30px;">- MISC (Miscellaneous)</li>
+                        <li style="margin-left: 30px;">- ORG (Organization)</li>
+                        <li style="margin-left: 30px;">- O (Other)</li>
+                    </ul>
+                </div>
+            """,
 )
 
 demo.launch()
